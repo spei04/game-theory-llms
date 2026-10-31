@@ -18,8 +18,6 @@ Usage:
         [--model claude|gpt|gemini|qwen] [--agent NAME] \
         [--output_dir DIR] [--cost_cap X]
 
-For per-agent reactivity plots, use:
-    python figures/plot_agent_donations.py
 """
 
 import glob

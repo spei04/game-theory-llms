@@ -6,9 +6,10 @@ Left panel: four stacked bars (cultural evolution gen 1 / gen 10, direct
 evolution beta=50 gen 1 / gen 10). Each bar splits the across-run variance of
 per-run cooperation into two components (type-II SS, computed on the fly):
     executor model  |  run stochasticity (residual)
-Both settings use the baseline prompt only, so the comparison is
-apples-to-apples: cultural = simulations/neutral_baseline/{model},
-direct = simulations/direct_evo_50_old/{model} (model-matched executors).
+Both settings use the hand-written neutral baseline prompt, so the comparison
+is apples-to-apples: cultural = simulations/neutral_baseline/{model},
+direct = simulations/direct_evo_50_neutral/{model} (--direct_dir to change;
+direct_evo_50_old used an older wording of the baseline prompt).
 
 Right panel: within-run strategy-diversity metrics at gen 1 -> gen 10
 (lexical similarity, semantic similarity, distinct strategies, verbatim
@@ -92,10 +93,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--output", default="figures/run_variation/"
                                         "variance_shares_cultural_vs_direct.png")
+    ap.add_argument("--direct_dir", default="simulations/direct_evo_50_neutral")
     args = ap.parse_args()
 
     cultural = load_setting("simulations/neutral_baseline/{model}")
-    direct = load_setting("simulations/direct_evo_50_old/{model}")
+    direct = load_setting(args.direct_dir + "/{model}")
 
     bars = []
     for label, df, col in [("Cultural\nevolution\ngen 1", cultural, "g1"),
@@ -128,12 +130,11 @@ def main():
         ax.spines[side].set_visible(False)
     handles = [plt.Rectangle((0, 0), 1, 1, color=C_MODEL),
                plt.Rectangle((0, 0), 1, 1, color=C_RUN)]
-    ax.legend(handles, ["executor model", "run stochasticity"],
+    ax.legend(handles, ["model", "repeated runs"],
               fontsize=9, frameon=False, loc="upper center",
               bbox_to_anchor=(0.5, -0.16), ncol=2, labelcolor=INK_2)
 
-    ax.set_title("Cultural vs direct evolution (β=50): variance sources\n"
-                 "(baseline prompt, model-matched executors)",
+    ax.set_title("Cultural vs direct evolution (β=50), baseline prompt",
                  fontsize=11, color=INK, pad=10)
     fig.tight_layout()
 

@@ -3198,8 +3198,8 @@ number_of_rounds  = int(os.environ.get('NUM_ROUNDS',        12))
 initial_endowment = int(os.environ.get('INITIAL_ENDOWMENT', '10'))
 selection_method  = os.environ.get('SELECTION_METHOD',      'top')
 punishment_mechanism = os.environ.get('PUNISHMENT_MECHANISM', 'none')
-# PROMPT_VARIANT: 'baseline' | 'neutral_deepseek' | 'aggressive' | 'collaborative'
-#                 | 'neutral_claude' | 'neutral_gpt' | 'neutral_gemini'
+# PROMPT_VARIANT: 'baseline' | 'neutral_baseline' | 'neutral_deepseek' | 'aggressive'
+#                 | 'collaborative' | 'neutral_claude' | 'neutral_gpt' | 'neutral_gemini'
 prompt_variant    = os.environ.get('PROMPT_VARIANT', 'baseline')
 if prompt_variant == "neutral2":   # legacy name for the DeepSeek-authored neutral variant
     prompt_variant = "neutral_deepseek"
@@ -3560,6 +3560,20 @@ elif prompt_variant == "neutral_gemini":
         f"{_nge_history_text} "
         f"{punishment_text_in_system_prompt}"
     )
+# Hand-written neutral baseline: the system prompt the cluster script used on
+# 2026-05-07, which produced simulations/neutral_baseline.
+# Strategy and donor prompts are unchanged since then, so only this differs.
+elif prompt_variant == "neutral_baseline":
+    system_prompt = f"""You are a game-playing agent. Your assistance will help understand multi-agent interactions.
+                You are playing the following game. In each round, you receive a fixed new {initial_endowment} units of a resource.
+                In each round, you are randomly paired with another individual.
+                One of you is a donor, and the other is a recipient. The donor decides to give up some amount of the resource (a value in [0, {initial_endowment}]). Anything the donor does not donate is put in their savings stash, which cannot be used in any future rounds.
+                The recipient receives {cooperationGain}x the number of units that the donor gave up.
+                If you were a donor in one round, you will be a recipient in the next round, and vice versa.
+                {history_text}
+                {punishment_text_in_system_prompt}
+                Your goal is to maximize the number of units you have after the final round.
+                After the game has finished, the best-performing half of agents will survive to the next generation, and continue playing. """
 else:
     system_prompt = f"""Each player is given an initial endowment of {initial_endowment} units of a resource. In each round, you are randomly paired with another individual. One of you is a donor, and the other is a recipient. The donor decides to give up some amount of the resource. The recipient receives {cooperationGain}x the number of units that the donor gave up. If you were a donor in one round, you will be a recipient in the next round, and vice versa.
                 {history_text}

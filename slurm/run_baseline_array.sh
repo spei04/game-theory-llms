@@ -9,7 +9,7 @@
 #
 # Flags (all optional, all default to "off / baseline / claude"):
 #   --model <name>        single-model run. Short: claude | gpt | gemini, or full string
-#   --variant <name>      prompt variant: baseline | neutral_deepseek | neutral_claude |
+#   --variant <name>      prompt variant: baseline | neutral_baseline | neutral_deepseek | neutral_claude |
 #                         neutral_gpt | neutral_gemini | aggressive | collaborative
 #                         (legacy alias: neutral2 = neutral_deepseek)
 #   --het <mode>          heterogeneous population: random | replacement | claude | gpt | gemini

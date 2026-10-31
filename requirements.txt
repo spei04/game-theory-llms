@@ -1,0 +1,10 @@
+numpy
+pandas
+scipy
+matplotlib
+scikit-learn
+sentence-transformers
+openai
+anthropic
+google-genai
+python-dotenv

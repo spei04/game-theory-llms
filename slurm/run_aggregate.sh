@@ -46,17 +46,7 @@ N_STRAT=$(find "$OUTPUT_DIR" -maxdepth 1 -name "all_strategies_*.json" | wc -l)
 echo "Files found: $N_ACCUM Final_Accum files, $N_STRAT all_strategies files"
 
 # ---------------------------------------------------------------------------
-# 2. Generate overlay figures (resources + donations over generations)
-# ---------------------------------------------------------------------------
-echo ""
-echo "=== Generating overlay figures ==="
-$PYTHON -u figures/figs_overlay.py \
-    --base_dir "$OUTPUT_DIR" \
-    --output_dir "$OUTPUT_DIR/figures" \
-    --max_runs 0
-
-# ---------------------------------------------------------------------------
-# 3. Run strategy analysis (is_specified + coded strategies)
+# 2. Run strategy analysis (is_specified + coded strategies)
 #    One call per model found in the output directory.
 # ---------------------------------------------------------------------------
 echo ""
