@@ -61,8 +61,7 @@ VARIANT_COLORS = {
 }
 
 # Variant pairs whose suite colors are too close to overlay (e.g. red vs pink):
-# variant_b falls back to neutral gray, matching the gray "second condition"
-# convention in compare_askcoded_strategies.py.
+# variant_b falls back to neutral gray.
 CLASH_PAIRS = {frozenset(("collaborative", "aggressive"))}
 FALLBACK_B = "#666666"
 
